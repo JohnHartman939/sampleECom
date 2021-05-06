@@ -1,5 +1,6 @@
 package com.example.demo.controllers
 
+import com.example.demo.datatranferobjects.UserDto
 import com.example.demo.entities.User
 import com.example.demo.services.UserService
 import org.springframework.web.bind.annotation.*
@@ -8,9 +9,10 @@ import java.util.*
 @RestController
 @RequestMapping("/user")
 class UserController( val userService: UserService) {
-    @PostMapping
+    @PostMapping("/register")
     fun saveUser(@RequestBody user: User) {
-        userService.addUser(user)
+        userService.registerNewUserAccount(user)
+
     }
 
 //    @GetMapping

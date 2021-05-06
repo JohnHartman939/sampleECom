@@ -11,6 +11,4 @@ data class Product (
     var productName: String,
     var productDescription: String,
     var price: Float,
-    @OneToMany(mappedBy = "product")
-    var users: MutableSet<Order>? = null
-        )
+    )

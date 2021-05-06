@@ -5,6 +5,8 @@ import javax.persistence.*
 
 @Embeddable
 data class OrderKey (
+//    @Column(name = "orderId")
+//    var orderIdNum: Int,
     @Column(name = "userId")
     var userId: Int,
     @Column(name = "productId")
@@ -16,6 +18,9 @@ data class OrderKey (
 data class Order (
     @EmbeddedId
     var orderId: OrderKey,
+
+//    @MapsId("orderIdNum")
+//    var orderIdNum: Int,
 
     @ManyToOne
     @MapsId("userId")
