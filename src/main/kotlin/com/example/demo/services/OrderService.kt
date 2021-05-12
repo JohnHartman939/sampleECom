@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class OrderService(val orderRepo: OrderRepo, val userRepo: UserRepo, val orderConverter: OrderConverter) {
-    fun saveOrder(orderDto: OrderDto): OrderDto {
-        var order = orderRepo.save(orderConverter.convertToOrder(OrderConversion(orderDto)))
+    fun saveOrder(orderDto: OrderDto, userId: Int): OrderDto {
+        var order = orderRepo.save(orderConverter.convertToOrder(OrderConversion(orderDto, userId)))
         return orderConverter.convertToOrderDto(OrderConversion(order))
     }
 

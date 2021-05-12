@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/order")
 class OrderController( val orderService: OrderService) {
-    @PostMapping
-    fun saveOrder(@RequestBody orderDto: OrderDto): OrderDto {
-        return orderService.saveOrder(orderDto)
+    @PostMapping(params = ["userId"])
+    fun saveOrder(@RequestBody orderDto: OrderDto, @RequestParam(value = "userId") userId: Int): OrderDto {
+        return orderService.saveOrder(orderDto, userId)
     }
 
     @GetMapping(params = ["userId"])

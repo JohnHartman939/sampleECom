@@ -21,13 +21,13 @@ class OrderConversion(
     var userConversion: UserConversion?,
     var orderProductConversion: List<OrderProductConversion>? = null
 ){
-    constructor(orderDto: OrderDto): this(null, orderDto.orderInfo.deliveryName,
-        orderDto.orderInfo.deliveryName,
+    constructor(orderDto: OrderDto, userId: Int): this(null, orderDto.orderInfo.deliveryFirstName,
+        orderDto.orderInfo.deliveryLastName,
         orderDto.orderInfo.deliveryAddress,
         orderDto.orderInfo.deliveryCity,
         orderDto.orderInfo.deliveryState,
         orderDto.orderInfo.deliveryZip,
-        UserConversion(1),
+        UserConversion(userId),
         orderDto.orderInfo.products?.map
             { OrderProductConversion(it.quantity,
                 ProductConversion(it.sku,
@@ -83,7 +83,8 @@ class OrderConverter(val userService: UserService, val productService: ProductSe
 
     fun convertToOrderDto( orderConversion: OrderConversion): OrderDto{
         return OrderDto(orderConversion.orderId,
-                            OrderInfo(orderConversion.firstName+ " " + orderConversion.lastName,
+                            OrderInfo(orderConversion.firstName,
+                                orderConversion.lastName,
                                 orderConversion.address,
                                 orderConversion.city,
                                 orderConversion.state,

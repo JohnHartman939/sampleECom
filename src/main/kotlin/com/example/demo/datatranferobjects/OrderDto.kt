@@ -14,15 +14,17 @@ data class OrderDto(
 }
 
 data class OrderInfo(
-    var deliveryName: String,
+    var deliveryFirstName: String,
+    var deliveryLastName: String,
     var deliveryAddress: String,
     var deliveryCity: String,
     var deliveryState: String,
     var deliveryZip: String,
     var products: List<OrderProductDto>?
 ){
-    constructor(order: Order) : this(order.firstName + " " + order.lastName, order.address, order.city, order.state, order.zip, order.orderProduct?.map { OrderProductDto(it) } as MutableList<OrderProductDto>?) {
-        deliveryName = order.firstName + " " + order.lastName
+    constructor(order: Order) : this(order.firstName, order.lastName, order.address, order.city, order.state, order.zip, order.orderProduct?.map { OrderProductDto(it) } as MutableList<OrderProductDto>?) {
+        deliveryFirstName = order.firstName
+        deliveryLastName = order.lastName
         deliveryAddress = order.address
         deliveryCity = order.city
         deliveryState = order.state
