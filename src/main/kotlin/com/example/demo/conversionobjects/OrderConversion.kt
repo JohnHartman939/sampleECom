@@ -23,16 +23,28 @@ class OrderConversion(
 ){
     constructor(orderDto: OrderDto): this(null, orderDto.orderInfo.deliveryName,
         orderDto.orderInfo.deliveryName,
-    orderDto.orderInfo.deliveryAddress,
-    orderDto.orderInfo.deliveryCity,
-    orderDto.orderInfo.deliveryState,
-    orderDto.orderInfo.deliveryZip,
-    UserConversion(1),
+        orderDto.orderInfo.deliveryAddress,
+        orderDto.orderInfo.deliveryCity,
+        orderDto.orderInfo.deliveryState,
+        orderDto.orderInfo.deliveryZip,
+        UserConversion(1),
         orderDto.orderInfo.products?.map
-        { OrderProductConversion(it.quantity, ProductConversion(it.sku, it.productName)) })
+            { OrderProductConversion(it.quantity,
+                ProductConversion(it.sku,
+                    it.productName)) })
 
-    constructor(order: Order): this( order.orderId, order.firstName, order.lastName, order.address, order.city, order.state, order.zip, null,
-        order.orderProduct?.map { OrderProductConversion(it.quantity, ProductConversion(it.product.sku, it.product.productName)) })
+    constructor(order: Order): this( order.orderId,
+        order.firstName,
+        order.lastName,
+        order.address,
+        order.city,
+        order.state,
+        order.zip,
+        null,
+        order.orderProduct?.map {
+            OrderProductConversion(it.quantity,
+                ProductConversion(it.product.sku,
+                    it.product.productName)) })
 }
 
 class UserConversion(
@@ -52,6 +64,7 @@ class ProductConversion(
 @Component
 class OrderConverter(val userService: UserService, val productService: ProductService){
     fun convertToOrder(orderConversion: OrderConversion): Order {
+
         var order = Order(null,
             orderConversion.firstName,
             orderConversion.lastName,
@@ -60,19 +73,24 @@ class OrderConverter(val userService: UserService, val productService: ProductSe
             orderConversion.state,
             orderConversion.zip,
             userService.getUserById(orderConversion.userConversion?.userId).get())
+
         order.orderProduct= orderConversion.orderProductConversion?.map {
             var product = productService.findProductBySkuAndName(it.productConversion.sku, it.productConversion.productName)
             OrderProduct(OrderProductKey(order.orderId,product.upc),order, product, it.qunatity) }?.toMutableList()
+
         return order
     }
 
     fun convertToOrderDto( orderConversion: OrderConversion): OrderDto{
         return OrderDto(orderConversion.orderId,
-            OrderInfo(orderConversion.firstName+ " " + orderConversion.lastName,
-                orderConversion.address,
-            orderConversion.city,
-            orderConversion.state,
-            orderConversion.zip,
-            orderConversion.orderProductConversion?.map { OrderProductDto( it.productConversion.sku, it.productConversion.productName, it.qunatity) }))
+                            OrderInfo(orderConversion.firstName+ " " + orderConversion.lastName,
+                                orderConversion.address,
+                                orderConversion.city,
+                                orderConversion.state,
+                                orderConversion.zip,
+                                orderConversion.orderProductConversion?.map {
+                                    OrderProductDto( it.productConversion.sku,
+                                        it.productConversion.productName,
+                                        it.qunatity) }))
     }
 }
