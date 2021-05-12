@@ -2,6 +2,7 @@ package com.example.demo.controllers
 
 import com.example.demo.datatranferobjects.ProductDto
 import com.example.demo.entities.Product
+import com.example.demo.errors.PutBadRequest
 import com.example.demo.services.ProductService
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -10,8 +11,13 @@ import java.util.*
 @RequestMapping("/products")
 class ProductController( val productService: ProductService)  {
     @PostMapping
-    fun addProduct(@RequestBody product: Product) {
-        productService.addProduct(product)
+    fun addProduct(@RequestBody product: Product): Product{
+        return productService.addProduct(product)
+    }
+
+    @PutMapping(params = ["upc"])
+    fun updateProduct(@RequestParam("upc") upc: Int, @RequestBody product: Product): Product {
+        return if (upc == product.upc) productService.updateProduct(product) else throw PutBadRequest("upc in url not equal to request body")
     }
 
     @GetMapping()
@@ -32,5 +38,10 @@ class ProductController( val productService: ProductService)  {
     @GetMapping(params = ["keyword"])
     fun searchForProductsByNameOrDescription(@RequestParam("keyword", required = true) keyword: String): List<ProductDto> {
         return productService.searchForProducts(keyword)
+    }
+
+    @GetMapping( params = ["sku", "name"])
+    fun getProductBySkuAndName(@RequestParam("sku") sku: String, @RequestParam("name")name: String): Product{
+        return productService.findProductBySkuAndName(sku, name)
     }
 }

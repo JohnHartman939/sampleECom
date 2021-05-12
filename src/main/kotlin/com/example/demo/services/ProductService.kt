@@ -8,8 +8,12 @@ import java.util.*
 
 @Service
 class ProductService(val productRepo: ProductRepo)  {
-    fun addProduct(product: Product) {
-        productRepo.save(product)
+    fun addProduct(product: Product): Product {
+        return productRepo.save(product)
+    }
+
+    fun updateProduct(product: Product): Product {
+        return productRepo.save(product)
     }
 
     fun getAllProducts(): List<ProductDto> {
@@ -28,8 +32,13 @@ class ProductService(val productRepo: ProductRepo)  {
         return productRepo.findByProductNameOrProductDescriptionContaining(keyword, keyword).map { product -> convertProductToDto(product) }
         }
 
+    fun findProductBySkuAndName(sku: String?, name: String?): Product{
+        return productRepo.findBySkuAndProductName(sku!!, name!!)
+    }
+
     private fun convertProductToDto(product: Product): ProductDto{
-        return ProductDto(upc = product.upc,
+        return ProductDto(
+            upc = product.upc,
             name = product.productName,
             description = product.productDescription,
             price = product.price)

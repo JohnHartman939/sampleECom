@@ -1,37 +1,25 @@
 package com.example.demo.entities
 
-import java.io.Serializable
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.*
 
-@Embeddable
-data class OrderKey (
-//    @Column(name = "orderId")
-//    var orderIdNum: Int,
-    @Column(name = "userId")
-    var userId: Int,
-    @Column(name = "productId")
-    var upc: Int
-    ): Serializable
-
 @Entity
-@Table(name = "UserProductOrder")
-data class Order (
-    @EmbeddedId
-    var orderId: OrderKey,
-
-//    @MapsId("orderIdNum")
-//    var orderIdNum: Int,
-
+@Table(name = "Orders")
+data class Order(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var orderId: Int?,
+    var firstName: String,
+    var lastName: String,
+    var address: String,
+    var city: String,
+    var state: String,
+    var zip: String,
     @ManyToOne
-    @MapsId("userId")
     @JoinColumn(name = "id")
+    @JsonIgnoreProperties("orders")
     var user: User,
-
-    @ManyToOne
-    @MapsId("upc")
-    @JoinColumn(name = "upc")
-    var product: Product,
-
-    var rating: Int,
-    var comment: String
+    @JsonIgnoreProperties("order")
+    @OneToMany(mappedBy = "order", cascade = arrayOf(CascadeType.PERSIST))
+    var orderProduct: MutableList<OrderProduct>? = null
         )
