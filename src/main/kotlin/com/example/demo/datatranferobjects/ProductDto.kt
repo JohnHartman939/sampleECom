@@ -4,5 +4,5 @@ data class ProductDto(
     var upc: Int,
     var name: String?,
     var description: String?,
-    var price: Float?
+    var price: Double
         )

@@ -9,12 +9,15 @@ data class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var upc: Int,
-    var sku: String?,
-    var productName: String?,
-    var productDescription: String?,
-    var price: Float?,
+    var sku: String,
+    var productName: String,
+    var productDescription: String,
+    var price: Double,
     @OneToMany(mappedBy = "product")
     @JsonIgnoreProperties("product")
-    var orderProduct: MutableList<OrderProduct>? = null
+    var orderProduct: MutableList<OrderProduct>,
+    @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    val reviews: MutableList<Review>
 
 )

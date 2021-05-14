@@ -6,8 +6,8 @@ import com.example.demo.datatranferobjects.OrderProductDto
 import com.example.demo.entities.Order
 import com.example.demo.entities.OrderProduct
 import com.example.demo.entities.OrderProductKey
-import com.example.demo.services.ProductService
-import com.example.demo.services.UserService
+import com.example.demo.repositories.ProductRepo
+import com.example.demo.repositories.UserRepo
 import org.springframework.stereotype.Component
 
 class OrderConversion(
@@ -19,7 +19,8 @@ class OrderConversion(
     var state: String,
     var zip: String,
     var userConversion: UserConversion?,
-    var orderProductConversion: List<OrderProductConversion>? = null
+    var orderProductConversion: List<OrderProductConversion>?,
+    var orderSum: Double?
 ){
     constructor(orderDto: OrderDto, userId: Int): this(null, orderDto.orderInfo.deliveryFirstName,
         orderDto.orderInfo.deliveryLastName,
@@ -31,7 +32,7 @@ class OrderConversion(
         orderDto.orderInfo.products?.map
             { OrderProductConversion(it.quantity,
                 ProductConversion(it.sku,
-                    it.productName)) })
+                    it.productName)) }, orderDto.total)
 
     constructor(order: Order): this( order.orderId,
         order.firstName,
@@ -44,7 +45,7 @@ class OrderConversion(
         order.orderProduct?.map {
             OrderProductConversion(it.quantity,
                 ProductConversion(it.product.sku,
-                    it.product.productName)) })
+                    it.product.productName)) }, order.orderSum)
 }
 
 class UserConversion(
@@ -57,13 +58,18 @@ class OrderProductConversion(
 )
 
 class ProductConversion(
-    var sku: String?,
-    var productName: String?
+    var sku: String,
+    var productName: String
 )
 
 @Component
-class OrderConverter(val userService: UserService, val productService: ProductService){
+class OrderConverter(val userRepo: UserRepo, val productRepo: ProductRepo){
     fun convertToOrder(orderConversion: OrderConversion): Order {
+
+        var products = orderConversion.orderProductConversion?.map {
+            productRepo.findBySkuAndProductName(it.productConversion.sku, it.productConversion.productName)
+        }
+
 
         var order = Order(null,
             orderConversion.firstName,
@@ -72,17 +78,17 @@ class OrderConverter(val userService: UserService, val productService: ProductSe
             orderConversion.city,
             orderConversion.state,
             orderConversion.zip,
-            userService.getUserById(orderConversion.userConversion?.userId).get())
+            userRepo.findById(orderConversion.userConversion?.userId!!).get(), null, orderConversion.orderSum)
 
-        order.orderProduct= orderConversion.orderProductConversion?.map {
-            var product = productService.findProductBySkuAndName(it.productConversion.sku, it.productConversion.productName)
+        order.orderProduct = orderConversion.orderProductConversion?.map {
+            var product = productRepo.findBySkuAndProductName(it.productConversion.sku, it.productConversion.productName)
             OrderProduct(OrderProductKey(order.orderId,product.upc),order, product, it.qunatity) }?.toMutableList()
 
         return order
     }
 
     fun convertToOrderDto( orderConversion: OrderConversion): OrderDto{
-        return OrderDto(orderConversion.orderId,
+        return OrderDto(orderConversion.orderId, orderConversion.orderSum,
                             OrderInfo(orderConversion.firstName,
                                 orderConversion.lastName,
                                 orderConversion.address,

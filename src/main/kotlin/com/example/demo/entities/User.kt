@@ -13,10 +13,8 @@ data class User (
     var password: String?,
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
-    var orders: MutableList<Order>? = null
-
-){
-    constructor(userId: Int): this(id = userId, email = null, password = null){
-        id = userId
-    }
-}
+    var orders: MutableList<Order>? = null,
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    val reviews: MutableList<Review>?
+)

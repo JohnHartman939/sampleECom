@@ -5,9 +5,10 @@ import com.example.demo.entities.OrderProduct
 
 data class OrderDto(
     var orderID: Int?,
+    var total: Double?,
     var orderInfo: OrderInfo
         ){
-    constructor(order: Order) : this(order.orderId, OrderInfo(order)) {
+    constructor(order: Order) : this(order.orderId, order.orderSum, OrderInfo(order)) {
         orderID=order.orderId
         orderInfo=OrderInfo(order)
     }
@@ -22,20 +23,20 @@ data class OrderInfo(
     var deliveryZip: String,
     var products: List<OrderProductDto>?
 ){
-    constructor(order: Order) : this(order.firstName, order.lastName, order.address, order.city, order.state, order.zip, order.orderProduct?.map { OrderProductDto(it) } as MutableList<OrderProductDto>?) {
+    constructor(order: Order) : this(order.firstName, order.lastName, order.address, order.city, order.state, order.zip, order.orderProduct?.map { OrderProductDto(it) }) {
         deliveryFirstName = order.firstName
         deliveryLastName = order.lastName
         deliveryAddress = order.address
         deliveryCity = order.city
         deliveryState = order.state
         deliveryZip = order.zip
-        products = order.orderProduct?.map { OrderProductDto(it) } as MutableList<OrderProductDto>?
+        products = order.orderProduct?.map { OrderProductDto(it) }
     }
 }
 
 data class OrderProductDto(
-    var sku: String?,
-    var productName: String?,
+    var sku: String,
+    var productName: String,
     var quantity: Int
 ){
     constructor( orderProduct: OrderProduct) : this(orderProduct.product.sku, orderProduct.product.productName, orderProduct.quantity) {

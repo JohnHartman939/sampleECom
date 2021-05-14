@@ -2,20 +2,34 @@ package com.example.demo.errors
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.util.*
 
-@ControllerAdvice
+@RestControllerAdvice
 class Error: ResponseEntityExceptionHandler() {
     @ExceptionHandler(value = [(PutBadRequest::class)])
     fun handlePutBadRequest(error: PutBadRequest, request: WebRequest): ResponseEntity<ErrorDetails> {
         return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.CONFLICT)
     }
+
+    @ExceptionHandler(value = [(NotOrderedException::class)])
+    fun handleNotOrdered(error: NotOrderedException, request: WebRequest): ResponseEntity<ErrorDetails> {
+        return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.EXPECTATION_FAILED)
+    }
+
+    @ExceptionHandler(value = [(AlreadyReviewedException::class)])
+    fun handleAlreadyReviewed(error: AlreadyReviewedException, request: WebRequest): ResponseEntity<ErrorDetails> {
+        return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.CONFLICT)
+    }
 }
 
 class PutBadRequest(override val message: String?): Exception(message)
+
+class NotOrderedException(override val message: String?): Exception(message)
+
+class AlreadyReviewedException(override val message: String?): Exception(message)
 
 data class ErrorDetails(val time: Date, val message: String, val details: String?)

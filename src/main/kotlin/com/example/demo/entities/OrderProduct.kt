@@ -22,7 +22,7 @@ data class OrderProduct (
     @MapsId("orderId")
     @JoinColumn(name = "orderId")
     @JsonIgnoreProperties("orderProduct")
-    var order: Order?,
+    var order: Order,
 
     @ManyToOne
     @MapsId("upc")

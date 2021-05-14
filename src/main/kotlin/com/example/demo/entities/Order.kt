@@ -21,5 +21,6 @@ data class Order(
     var user: User,
     @JsonIgnoreProperties("order")
     @OneToMany(mappedBy = "order", cascade = arrayOf(CascadeType.PERSIST))
-    var orderProduct: MutableList<OrderProduct>? = null
+    var orderProduct: MutableList<OrderProduct>?,
+    var orderSum: Double?
         )
