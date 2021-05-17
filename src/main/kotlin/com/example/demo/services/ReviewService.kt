@@ -12,21 +12,34 @@ import org.springframework.stereotype.Service
 
 @Service
 class ReviewService( val reviewRepo: ReviewRepo, val userRepo: UserRepo, val productRepo: ProductRepo, val orderRepo: OrderRepo) {
+
+    fun updateReview(upc: Int, userId: Int, updatedReview: Review): ReviewDto {
+        var originalReview = reviewRepo.findByProductAndUser(productRepo.findById(upc).get(), userRepo.findById(userId).get())
+
+        originalReview.rating = updatedReview.rating
+        originalReview.reviewTitle = updatedReview.reviewTitle
+        originalReview.reviewText = updatedReview.reviewText
+
+        return ReviewDto(reviewRepo.save(originalReview))
+    }
+
     fun saveReview(upc: Int, userId: Int, review: Review): ReviewDto {
         val orders = orderRepo.findAllByUserId(userId)
         val orderProducts = orders.flatMap { it.orderProduct!! }
         val orderedProducts = orderProducts.map { it.product }.filter { it.upc == upc }
         val usersReviewed = orderedProducts.flatMap { it.reviews.map { it.user } }.filter { it?.id == userId }
-        if (orderedProducts.isEmpty()) {
-            throw NotOrderedException("The User did not order this product")
-        }
-        else if (usersReviewed.isNotEmpty()) {
-            throw AlreadyReviewedException("The user already reviewed this item")
-        }
-        else {
-            review.product = productRepo.findById(upc).get()
-            review.user = userRepo.findById(userId).get()
-            return ReviewDto(reviewRepo.save(review))
+        when {
+            orderedProducts.isEmpty() -> {
+                throw NotOrderedException("The User did not order this product")
+            }
+            usersReviewed.isNotEmpty() -> {
+                throw AlreadyReviewedException("The user already reviewed this item")
+            }
+            else -> {
+                review.product = productRepo.findById(upc).get()
+                review.user = userRepo.findById(userId).get()
+                return ReviewDto(reviewRepo.save(review))
+            }
         }
     }
     fun getReviewsByProduct(productId: Int): List<ReviewDto> {

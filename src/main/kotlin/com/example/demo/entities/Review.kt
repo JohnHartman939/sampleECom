@@ -16,7 +16,7 @@ data class Review (
     @JoinColumn(name = "upc")
     @JsonIgnoreProperties("reviews")
     var product: Product?,
-    val rating: Int,
-    val reviewTitle: String,
-    val reviewText: String
+    var rating: Int,
+    var reviewTitle: String,
+    var reviewText: String
         )

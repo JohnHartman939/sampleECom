@@ -10,19 +10,15 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/review")
 class ReviewController(val reviewService: ReviewService) {
+
+    @PutMapping(params = ["upc", "userId"])
+    fun updateReview(@RequestParam("upc") upc: Int, @RequestParam("userId") userId: Int, @RequestBody review: Review): ReviewDto {
+        return reviewService.updateReview(upc, userId, review)
+    }
+
     @PostMapping(params = ["upc", "userId"])
     fun saveReview(@RequestParam("upc") upc: Int, @RequestParam("userId") userId: Int, @RequestBody review: Review): ReviewDto {
-        val reviewDto: ReviewDto
-        try {
-            reviewDto = reviewService.saveReview(upc, userId, review)
-        }
-        catch (e: AlreadyReviewedException) {
-            throw e
-        }
-        catch (e: NotOrderedException) {
-            throw e
-        }
-        return reviewDto
+        return reviewService.saveReview(upc, userId, review)
     }
 
     @GetMapping(params = ["userId"])
