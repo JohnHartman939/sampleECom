@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository
 interface ProductRepo: CrudRepository<Product,Int> {
     fun findByPriceBetween(lower: Float, higher: Float): List<Product>
     fun findByProductNameOrProductDescriptionContaining(nameKeyword: String, descriptionKeyword: String): List<Product>
-    fun findBySkuAndProductName(sku: String, productName: String): Product
+    fun findByUpcAndProductName(upc: Int, productName: String): Product
+    fun findByUpc(upc: Int?): Product
 }

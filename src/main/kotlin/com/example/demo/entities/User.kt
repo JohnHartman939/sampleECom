@@ -1,6 +1,6 @@
 package com.example.demo.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.example.demo.datatranferobjects.UserDto
 import javax.persistence.*
 
 @Entity
@@ -8,13 +8,13 @@ import javax.persistence.*
 data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
-    var email: String?,
-    var password: String?,
+    var idUser: Int?,
+    var email: String,
+    var password: String,
     @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    var orders: MutableList<Order>? = null,
+    var orders: MutableList<Order> = mutableListOf(),
     @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    val reviews: MutableList<Review>?
-)
+    val reviews: MutableList<Review> = mutableListOf()
+) {
+    constructor(userDto: UserDto): this(idUser = null, email = userDto.email, password = userDto.password)
+}

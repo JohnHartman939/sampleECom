@@ -1,9 +1,13 @@
 package com.example.demo.datatranferobjects
 
+import com.example.demo.entities.User
+
 data class UserDto (
-    var firstName: String,
-    var lastName: String,
+    var email: String,
     var password: String,
-    var matchingPassword: String,
-    var email: String
-)
+) {
+    constructor(user: User): this(
+        email = user.email,
+        password = user.password,
+    )
+}

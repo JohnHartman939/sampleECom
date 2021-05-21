@@ -1,6 +1,6 @@
 package com.example.demo.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.example.demo.datatranferobjects.ReviewDtoRequest
 import javax.persistence.*
 
 @Entity
@@ -10,13 +10,24 @@ data class Review (
     val reviewId: Int?,
     @ManyToOne
     @JoinColumn(name = "id")
-    @JsonIgnoreProperties("reviews")
-    var user: User?,
+    var user: User,
     @ManyToOne
     @JoinColumn(name = "upc")
-    @JsonIgnoreProperties("reviews")
-    var product: Product?,
+    var product: Product,
     var rating: Int,
     var reviewTitle: String,
     var reviewText: String
-        )
+    ) {
+    constructor(
+        reviewDto: ReviewDtoRequest,
+        user: User,
+        product: Product
+    ): this(
+        reviewId = null,
+        user = user,
+        product = product,
+        rating = reviewDto.rating,
+        reviewText = reviewDto.reviewText,
+        reviewTitle = reviewDto.reviewName
+    )
+}

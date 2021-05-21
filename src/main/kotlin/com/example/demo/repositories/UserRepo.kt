@@ -4,5 +4,6 @@ import com.example.demo.entities.User
 import org.springframework.data.repository.CrudRepository
 
 interface UserRepo: CrudRepository<User,Int> {
-    fun findByEmail(email: String?): User
+    fun findByEmail(email: String): User
+    fun findByIdUser(idUser: Int): User
 }

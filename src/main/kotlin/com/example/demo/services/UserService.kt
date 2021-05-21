@@ -11,15 +11,15 @@ class UserService (val userRepo: UserRepo) {
         return userRepo.save(user)
     }
 
-    fun getUserById(id: Int?): Optional<User> {
-        return userRepo.findById(id!!)
+    fun getUserById(id: Int): User {
+        return userRepo.findByIdUser(id)
     }
 
-    fun getUserByEmail(email: String?): User {
+    fun getUserByEmail(email: String): User {
         return userRepo.findByEmail(email)
     }
 
-    fun checkForAccountWithEmail(email: String?): Boolean {
+    fun checkForAccountWithEmail(email: String): Boolean {
         return userRepo.findByEmail(email) != null
     }
 

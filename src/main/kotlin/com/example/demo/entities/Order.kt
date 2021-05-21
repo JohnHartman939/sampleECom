@@ -1,6 +1,6 @@
 package com.example.demo.entities
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.example.demo.datatranferobjects.OrderDtoRequest
 import javax.persistence.*
 
 @Entity
@@ -17,10 +17,19 @@ data class Order(
     var zip: String,
     @ManyToOne
     @JoinColumn(name = "id")
-    @JsonIgnoreProperties("orders")
     var user: User,
-    @JsonIgnoreProperties("order")
     @OneToMany(mappedBy = "order", cascade = arrayOf(CascadeType.PERSIST))
-    var orderProduct: MutableList<OrderProduct>?,
+    var orderProduct: MutableList<OrderProduct> = mutableListOf(),
     var orderSum: Double?
-        )
+    ) {
+    constructor(orderDtoRequest: OrderDtoRequest, user: User, orderedProducts: List<OrderProduct>): this(orderId = null,
+    firstName = orderDtoRequest.orderInfo.deliveryFirstName,
+    lastName = orderDtoRequest.orderInfo.deliveryLastName,
+    address = orderDtoRequest.orderInfo.deliveryAddress,
+    city = orderDtoRequest.orderInfo.deliveryCity,
+    state = orderDtoRequest.orderInfo.deliveryState,
+    zip = orderDtoRequest.orderInfo.deliveryZip,
+    user = user,
+    orderProduct = orderedProducts.toMutableList(),
+    orderSum = orderedProducts.sumByDouble { it.product.price * it.quantity })
+}
