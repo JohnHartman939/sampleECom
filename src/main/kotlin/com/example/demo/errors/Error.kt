@@ -24,6 +24,16 @@ class Error: ResponseEntityExceptionHandler() {
     fun handleAlreadyReviewed(error: AlreadyReviewedException, request: WebRequest): ResponseEntity<ErrorDetails> {
         return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.CONFLICT)
     }
+
+    @ExceptionHandler(value = [(UserNotFoundException::class)])
+    fun handleUserNotFound(error: UserNotFoundException, request: WebRequest): ResponseEntity<ErrorDetails> {
+        return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(value = [(ProductNotFoundException::class)])
+    fun handleProductNotFound(error: ProductNotFoundException, request: WebRequest): ResponseEntity<ErrorDetails> {
+        return ResponseEntity(ErrorDetails( Date(), "Validation Failed", error.message), HttpStatus.NOT_FOUND)
+    }
 }
 
 class PutBadRequest(override val message: String?): Exception(message)
@@ -31,5 +41,9 @@ class PutBadRequest(override val message: String?): Exception(message)
 class NotOrderedException(override val message: String?): Exception(message)
 
 class AlreadyReviewedException(override val message: String?): Exception(message)
+
+class UserNotFoundException(override val message: String?): Exception(message)
+
+class ProductNotFoundException(override val message: String?): Exception(message)
 
 data class ErrorDetails(val time: Date, val message: String, val details: String?)

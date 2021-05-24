@@ -1,20 +1,31 @@
 package com.example.demo.conversionobjects
 
-import com.example.demo.datatranferobjects.ReviewDtoRequest
-import com.example.demo.datatranferobjects.ReviewDtoResponse
+import com.example.demo.datatranferobjects.ReviewDto
 import com.example.demo.entities.Review
+import com.example.demo.errors.ProductNotFoundException
+import com.example.demo.errors.UserNotFoundException
 import com.example.demo.repositories.ProductRepo
 import com.example.demo.repositories.UserRepo
+import org.omg.CORBA.UserException
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Component
 
 @Component
 class ReviewConverter(val userRepo: UserRepo, val productRepo: ProductRepo) {
 
-    fun convertToReviewDtoResponse(review: Review): ReviewDtoResponse {
-        return ReviewDtoResponse(review)
+    fun convertToReviewDto(review: Review): ReviewDto {
+        return ReviewDto(review)
     }
 
-    fun convertToReview(reviewDtoRequest: ReviewDtoRequest): Review{
-        return Review(reviewDtoRequest, userRepo.findByIdUser(reviewDtoRequest.userId), productRepo.findByUpc(reviewDtoRequest.upc) )
+    fun convertToReview(reviewDto: ReviewDto, upc: Int, userId: Int): Review{
+        return Review(
+            reviewDto = reviewDto,
+            user = try {userRepo.findByIdUser(userId)}
+            catch (e: EmptyResultDataAccessException)
+                { throw UserNotFoundException("The user could not be found")},
+            product = try {productRepo.findByUpc(upc)}
+            catch (e: EmptyResultDataAccessException)
+            {throw ProductNotFoundException("The product could not be found")}
+        )
     }
 }

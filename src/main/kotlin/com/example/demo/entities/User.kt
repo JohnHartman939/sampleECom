@@ -8,7 +8,7 @@ import javax.persistence.*
 data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var idUser: Int?,
+    var idUser: Int = 0 ,
     var email: String,
     var password: String,
     @OneToMany(mappedBy = "user")
@@ -16,5 +16,5 @@ data class User (
     @OneToMany(mappedBy = "user")
     val reviews: MutableList<Review> = mutableListOf()
 ) {
-    constructor(userDto: UserDto): this(idUser = null, email = userDto.email, password = userDto.password)
+    constructor(userDto: UserDto): this( email = userDto.email, password = userDto.password)
 }

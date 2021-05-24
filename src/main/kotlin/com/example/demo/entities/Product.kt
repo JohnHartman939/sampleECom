@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Product (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var upc: Int?,
+    var upc: Int,
     var productName: String,
     var productDescription: String,
     var price: Double,
@@ -18,7 +18,7 @@ data class Product (
     val reviews: MutableList<Review> = mutableListOf()
 ) {
     constructor(productDto: ProductDto): this(
-        upc = null,
+        upc = productDto.upc,
         productName = productDto.name,
         productDescription = productDto.description,
         price = productDto.price)

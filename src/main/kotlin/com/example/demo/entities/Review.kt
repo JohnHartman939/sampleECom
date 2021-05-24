@@ -1,13 +1,13 @@
 package com.example.demo.entities
 
-import com.example.demo.datatranferobjects.ReviewDtoRequest
+import com.example.demo.datatranferobjects.ReviewDto
 import javax.persistence.*
 
 @Entity
 data class Review (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val reviewId: Int?,
+    val reviewId: Int = 0,
     @ManyToOne
     @JoinColumn(name = "id")
     var user: User,
@@ -19,11 +19,10 @@ data class Review (
     var reviewText: String
     ) {
     constructor(
-        reviewDto: ReviewDtoRequest,
+        reviewDto: ReviewDto,
         user: User,
         product: Product
     ): this(
-        reviewId = null,
         user = user,
         product = product,
         rating = reviewDto.rating,

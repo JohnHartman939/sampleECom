@@ -8,7 +8,7 @@ import javax.persistence.*
 data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var orderId: Int?,
+    var orderId: Int = 0,
     var firstName: String,
     var lastName: String,
     var address: String,
@@ -18,11 +18,11 @@ data class Order(
     @ManyToOne
     @JoinColumn(name = "id")
     var user: User,
-    @OneToMany(mappedBy = "order", cascade = arrayOf(CascadeType.PERSIST))
+    @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST])
     var orderProduct: MutableList<OrderProduct> = mutableListOf(),
-    var orderSum: Double?
+    var orderSum: Double
     ) {
-    constructor(orderDtoRequest: OrderDtoRequest, user: User, orderedProducts: List<OrderProduct>): this(orderId = null,
+    constructor(orderDtoRequest: OrderDtoRequest, user: User, orderedProducts: List<OrderProduct>): this(
     firstName = orderDtoRequest.orderInfo.deliveryFirstName,
     lastName = orderDtoRequest.orderInfo.deliveryLastName,
     address = orderDtoRequest.orderInfo.deliveryAddress,

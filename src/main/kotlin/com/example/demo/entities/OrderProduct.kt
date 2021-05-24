@@ -6,9 +6,9 @@ import javax.persistence.*
 @Embeddable
 data class OrderProductKey(
     @Column(name = "orderId")
-    var orderId: Int?,
+    var orderId: Int = 0,
     @Column(name = "productId")
-    var upc: Int?
+    var upc: Int
     ): Serializable
 
 @Entity

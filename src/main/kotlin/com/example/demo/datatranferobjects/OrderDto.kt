@@ -19,14 +19,14 @@ data class OrderInfo(
 )
 
 data class OrderProductDto(
-    var upc: Int?,
+    var upc: Int,
     var productName: String,
     var quantity: Int
 )
 
-data class OrderDtoResponse(
-    val orderId: Int?,
-    val total: Double?,
+data class OrderDtoResponse (
+    val orderId: Int,
+    val total: Double,
     val orderInfo: OrderInfo
 ) {
     constructor(order: Order): this(

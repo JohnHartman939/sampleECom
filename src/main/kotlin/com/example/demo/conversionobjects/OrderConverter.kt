@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component
 class OrderConverter( val userRepo: UserRepo, val productRepo: ProductRepo) {
     fun convertToOrder(orderDtoRequest: OrderDtoRequest, userId: Int): Order {
         var order = Order(orderDtoRequest, user = userRepo.findByIdUser(userId), orderedProducts = orderDtoRequest.orderInfo.products.map { OrderProduct(orderId = OrderProductKey(
-            orderId = null, upc = it.upc), product = productRepo.findByUpc(it.upc), quantity = it.quantity ) })
-        order.orderProduct.map { it.order = order }
+            upc = it.upc), product = productRepo.findByUpcAndProductName(it.upc, it.productName), quantity = it.quantity ) })
+        order.orderProduct.forEach { it.order = order }
         return order
     }
 
