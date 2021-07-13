@@ -1,6 +1,9 @@
 package com.example.demo.entities
 
 import com.example.demo.datatranferobjects.OrderDtoRequest
+import org.hibernate.annotations.CreationTimestamp
+import java.sql.Date
+import java.sql.Timestamp
 import javax.persistence.*
 
 @Entity
@@ -20,7 +23,8 @@ data class Order(
     var user: User,
     @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST])
     var orderProduct: MutableList<OrderProduct> = mutableListOf(),
-    var orderSum: Double
+    var orderSum: Double,
+
     ) {
     constructor(orderDtoRequest: OrderDtoRequest, user: User, orderedProducts: List<OrderProduct>): this(
     firstName = orderDtoRequest.orderInfo.deliveryFirstName,
@@ -32,4 +36,7 @@ data class Order(
     user = user,
     orderProduct = orderedProducts.toMutableList(),
     orderSum = orderedProducts.sumByDouble { it.product.price * it.quantity })
+
+    @field:CreationTimestamp
+    lateinit var orderDate: Timestamp
 }

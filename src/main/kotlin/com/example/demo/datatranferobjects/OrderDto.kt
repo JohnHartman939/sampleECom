@@ -4,6 +4,7 @@ import com.example.demo.entities.Order
 
 
 data class OrderDtoRequest(
+    var userId: Int?,
     var orderInfo: OrderInfo
         )
 

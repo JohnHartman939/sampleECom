@@ -6,7 +6,10 @@ data class ReviewDto (
     var rating: Int,
     var reviewName: String,
     var reviewText: String,
+    var userId: Int? = null,
+    var upc: Int? = null
 ){
+
     constructor(review: Review): this(
         rating = review.rating,
         reviewName = review.reviewTitle,
