@@ -23,8 +23,7 @@ data class Order(
     var user: User,
     @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST])
     var orderProduct: MutableList<OrderProduct> = mutableListOf(),
-    var orderSum: Double,
-
+    var orderSum: Double
     ) {
     constructor(orderDtoRequest: OrderDtoRequest, user: User, orderedProducts: List<OrderProduct>): this(
     firstName = orderDtoRequest.orderInfo.deliveryFirstName,
@@ -35,7 +34,8 @@ data class Order(
     zip = orderDtoRequest.orderInfo.deliveryZip,
     user = user,
     orderProduct = orderedProducts.toMutableList(),
-    orderSum = orderedProducts.sumByDouble { it.product.price * it.quantity })
+    orderSum = orderedProducts.sumOf { it.product.price * it.quantity }
+    )
 
     @field:CreationTimestamp
     lateinit var orderDate: Timestamp
