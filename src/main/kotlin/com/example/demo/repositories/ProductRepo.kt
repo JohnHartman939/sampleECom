@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ProductRepo: CrudRepository<Product,Int> {
-    fun findByPriceBetween(lower: Float, higher: Float): List<Product>
+    fun findByPriceBetween(lower: Double, higher: Double): List<Product>
     fun findByProductNameOrProductDescriptionContaining(nameKeyword: String, descriptionKeyword: String): List<Product>
     fun findByUpcAndProductName(upc: Int, productName: String): Product
     fun findByUpc(upc: Int?): Product

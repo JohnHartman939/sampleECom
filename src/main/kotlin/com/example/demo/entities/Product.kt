@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "Product")
 data class Product (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var upc: Int,
     var productName: String,
     var productDescription: String,

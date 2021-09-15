@@ -22,7 +22,7 @@ class ProductService(val productRepo: ProductRepo)  {
         return productRepo.findByUpc(upc)
     }
 
-    fun getProductsByPriceBetween(low: Float, high: Float): List<Product> {
+    fun getProductsByPriceBetween(low: Double, high: Double): List<Product> {
         return productRepo.findByPriceBetween(low, high)
     }
 

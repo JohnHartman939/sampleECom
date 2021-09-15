@@ -5,16 +5,6 @@ import com.example.demo.entities.Product
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 
-//@Component
-//class ProductConverter {
-//    fun convertToProduct(productDto: ProductDto): Product{
-//        return Product(productDto)
-//    }
-//
-//    fun convertToProductDto(product: Product): ProductDto{
-//        return ProductDto(product)
-//    }
-//}
 @Component
 class DtoToProductConverter: Converter<ProductDto, Product> {
     override fun convert(productDto: ProductDto): Product? {

@@ -33,7 +33,7 @@ class ProductController( val productService: ProductService, @Qualifier("mvcConv
     }
 
     @GetMapping(params = ["low", "high"])
-    fun getProductsBetweenPrice(@RequestParam("low", required = true) low: Float, @RequestParam( "high", required = true) high: Float): List<ProductDto> {
+    fun getProductsBetweenPrice(@RequestParam("low", required = true) low: Double, @RequestParam( "high", required = true) high: Double): List<ProductDto> {
         return productService.getProductsByPriceBetween(low,high).map { conversionService.convert(it, ProductDto::class.java) ?: throw CustomConversionException("There was a problem") }
     }
 
