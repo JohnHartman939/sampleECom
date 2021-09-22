@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "Users")
 data class User (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var idUser: Int = 0 ,
     var email: String,
     var password: String,

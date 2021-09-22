@@ -10,7 +10,7 @@ import javax.persistence.*
 @Table(name = "Orders")
 data class Order(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var orderId: Int = 0,
     var firstName: String,
     var lastName: String,

@@ -1,16 +1,12 @@
 package com.example.demo.testData
 
-import com.example.demo.entities.User
-import org.junit.jupiter.api.extension.ExtensionContext
-import org.junit.jupiter.api.extension.ParameterContext
-import org.junit.jupiter.api.extension.ParameterResolver
+import com.example.demo.datatranferobjects.UserDto
 
-class UserData {
-//    override fun supportsParameter(parameterContext: ParameterContext?, extensionContext: ExtensionContext?): Boolean {
-//        return parameterContext?.parameter?.type == User.javaClass
-//    }
-//
-//    override fun resolveParameter(p0: ParameterContext?, p1: ExtensionContext?): Any {
-//        TODO("Not yet implemented")
-//    }
+class Data {
+    companion object{
+        fun getUserDto(): UserDto {
+            return UserDto(email = "test@gmail.com", password = "test123")
+        }
+    }
+
 }

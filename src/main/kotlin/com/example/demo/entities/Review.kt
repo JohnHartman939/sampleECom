@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 data class Review (
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val reviewId: Int = 0,
     @ManyToOne
     @JoinColumn(name = "id")
