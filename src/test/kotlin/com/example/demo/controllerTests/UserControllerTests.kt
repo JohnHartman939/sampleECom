@@ -47,4 +47,18 @@ class UserControllerTests: BaseControllerTests() {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().string(userDtoString))
     }
+
+    @Test
+    @Order(4)
+    fun `test get user by id not found`() {
+        mockMvc.perform(getRequestBuilder.queryParam("id", "100"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
+
+    @Test
+    @Order(5)
+    fun `test get user by email not found`() {
+        mockMvc.perform(getRequestBuilder.queryParam("email", "shouldntExist@gmail.com"))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
+    }
 }
