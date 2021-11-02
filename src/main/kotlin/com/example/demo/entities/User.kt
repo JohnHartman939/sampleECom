@@ -1,6 +1,7 @@
 package com.example.demo.entities
 
 import com.example.demo.datatranferobjects.UserDto
+import com.example.demo.entityinterfaces.IUser
 import javax.persistence.*
 
 @Entity
@@ -15,6 +16,6 @@ data class User (
     var orders: MutableList<Order> = mutableListOf(),
     @OneToMany(mappedBy = "user")
     val reviews: MutableList<Review> = mutableListOf()
-) {
+): IUser {
     constructor(userDto: UserDto): this( email = userDto.email, password = userDto.password)
 }

@@ -9,7 +9,6 @@ import org.springframework.core.convert.ConversionService
 import org.springframework.web.bind.annotation.*
 
 @RestController
-
 @RequestMapping("/user")
 class UserController(val userService: UserService, @Qualifier("mvcConversionService")val conversionService: ConversionService) {
     @PostMapping("/register")
@@ -19,12 +18,12 @@ class UserController(val userService: UserService, @Qualifier("mvcConversionServ
 
     @GetMapping(params = ["email"])
     fun getUserByEmail(@RequestParam("email") email: String): UserDto {
-        return conversionService.convert(userService.getUserByEmail(email), UserDto::class.java) ?: throw CustomConversionException("There was a problem")
+        return userService.getUserByEmail(email)
     }
 
     @GetMapping(params = ["id"])
     fun getUserById(@RequestParam("id") id: Int): UserDto {
-        return conversionService.convert(userService.getUserById(id), UserDto::class.java) ?: throw CustomConversionException("There was a problem")
+        return userService.getUserById(id)
 
     }
 

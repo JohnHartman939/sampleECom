@@ -1,5 +1,6 @@
 package com.example.demo.services
 
+import com.example.demo.datatranferobjects.ProductDto
 import com.example.demo.entities.Product
 import com.example.demo.repositories.ProductRepo
 import org.springframework.stereotype.Service
@@ -18,20 +19,20 @@ class ProductService(val productRepo: ProductRepo)  {
         return productRepo.findAll()
     }
 
-    fun getProductByUpc(upc: Int): Product {
-        return productRepo.findByUpc(upc)
+    fun getProductByUpc(upc: Int): ProductDto {
+        return productRepo.findByUpc(upc, ProductDto::class.java)
     }
 
-    fun getProductsByPriceBetween(low: Double, high: Double): List<Product> {
+    fun getProductsByPriceBetween(low: Double, high: Double): List<ProductDto> {
         return productRepo.findByPriceBetween(low, high)
     }
 
-    fun searchForProducts(keyword: String): List<Product> {
+    fun searchForProducts(keyword: String): List<ProductDto> {
         return productRepo.findByProductNameOrProductDescriptionContaining(keyword, keyword)
         }
 
-    fun findProductByUpcAndName(upc: Int, name: String): Product{
-        return productRepo.findByUpcAndProductName(upc, name)
+    fun findProductByUpcAndName(upc: Int, name: String): ProductDto{
+        return productRepo.findByUpcAndProductName(upc, name, ProductDto::class.java)
     }
 
 }

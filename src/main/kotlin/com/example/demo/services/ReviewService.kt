@@ -1,6 +1,9 @@
 package com.example.demo.services
 
+import com.example.demo.datatranferobjects.ReviewDto
+import com.example.demo.entities.Order
 import com.example.demo.entities.Review
+import com.example.demo.entities.User
 import com.example.demo.errors.AlreadyReviewedException
 import com.example.demo.errors.NotOrderedException
 import com.example.demo.repositories.OrderRepo
@@ -16,14 +19,14 @@ class ReviewService( val reviewRepo: ReviewRepo, val userRepo: UserRepo, val pro
         val originalReview = reviewRepo.findByProductAndUser(productRepo.findById(upc).get(), userRepo.findById(userId).get())
 
         originalReview.rating = updatedReview.rating
-        originalReview.reviewTitle = updatedReview.reviewTitle
+        originalReview.reviewName = updatedReview.reviewName
         originalReview.reviewText = updatedReview.reviewText
 
         return reviewRepo.save(originalReview)
     }
 
     fun saveReview(upc: Int, userId: Int, review: Review): Review {
-        val orders = orderRepo.findAllByUser(userRepo.findByIdUser(userId))
+        val orders = orderRepo.findAllByUser(userRepo.findByIdUser(userId, User::class.java), Order::class.java)
         val orderProducts = orders.flatMap { it.orderProduct }
         val orderedProducts = orderProducts.map { it.product }.filter { it.upc == upc }
         val usersReviewed = orderedProducts.flatMap { product -> product.reviews.map { it.user } }.filter { it.idUser == userId }
@@ -41,11 +44,11 @@ class ReviewService( val reviewRepo: ReviewRepo, val userRepo: UserRepo, val pro
             }
         }
     }
-    fun getReviewsByProduct(productId: Int): List<Review> {
+    fun getReviewsByProduct(productId: Int): List<ReviewDto> {
         return reviewRepo.findAllByProduct(productRepo.findById(productId).get())
     }
 
-    fun getReviewsByUser(userId: Int): List<Review> {
+    fun getReviewsByUser(userId: Int): List<ReviewDto> {
         return reviewRepo.findAllByUser(userRepo.findById(userId).get())
     }
 }

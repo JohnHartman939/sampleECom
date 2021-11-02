@@ -1,5 +1,6 @@
 package com.example.demo.services
 
+import com.example.demo.datatranferobjects.UserDto
 import com.example.demo.entities.User
 import com.example.demo.repositories.UserRepo
 import org.springframework.stereotype.Service
@@ -11,11 +12,11 @@ class UserService (val userRepo: UserRepo) {
         return userRepo.save(user)
     }
 
-    fun getUserById(id: Int): User {
-        return userRepo.findByIdUser(id)
+    fun getUserById(id: Int): UserDto {
+        return userRepo.findByIdUser(id, UserDto::class.java)
     }
 
-    fun getUserByEmail(email: String): User {
+    fun getUserByEmail(email: String): UserDto {
         return userRepo.findByEmail(email)
     }
 

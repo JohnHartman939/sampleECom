@@ -1,6 +1,7 @@
 package com.example.demo.entities
 
 import com.example.demo.datatranferobjects.ReviewDto
+import com.example.demo.entityinterfaces.IReview
 import javax.persistence.*
 
 @Entity
@@ -15,9 +16,9 @@ data class Review (
     @JoinColumn(name = "upc")
     var product: Product,
     var rating: Int,
-    var reviewTitle: String,
+    var reviewName: String,
     var reviewText: String
-    ) {
+    ):IReview {
     constructor(
         reviewDto: ReviewDto,
         user: User,
@@ -27,6 +28,6 @@ data class Review (
         product = product,
         rating = reviewDto.rating,
         reviewText = reviewDto.reviewText,
-        reviewTitle = reviewDto.reviewName
+        reviewName = reviewDto.reviewName
     )
 }

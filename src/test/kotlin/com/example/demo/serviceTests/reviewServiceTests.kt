@@ -43,8 +43,8 @@ class reviewServiceTests() {
         val mockUserRepo: UserRepo = mock()
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
-        whenever(mockUserRepo.findByIdUser(0)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user)).thenReturn(orders)
+        whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
+        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
 
         val reviewService = ReviewService(mockReviewRepo, mockUserRepo, mockProductRepo, mockOrderRepo)
 
@@ -55,7 +55,7 @@ class reviewServiceTests() {
                     user = user,
                     product = product2,
                     rating = 5,
-                    reviewTitle = "Amazing",
+                    reviewName = "Amazing",
                     reviewText = "it was so good"
                 )
             )
@@ -90,15 +90,15 @@ class reviewServiceTests() {
             user = user,
             product = product1,
             rating = 5,
-            reviewTitle = "Amazing",
+            reviewName = "Amazing",
             reviewText = "it was so good"
         ))
         val mockOrderRepo: OrderRepo = mock()
         val mockUserRepo: UserRepo = mock()
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
-        whenever(mockUserRepo.findByIdUser(0)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user)).thenReturn(orders)
+        whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
+        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
 
         val reviewService = ReviewService(mockReviewRepo, mockUserRepo, mockProductRepo, mockOrderRepo)
 
@@ -109,7 +109,7 @@ class reviewServiceTests() {
                     user = user,
                     product = product2,
                     rating = 5,
-                    reviewTitle = "Amazing",
+                    reviewName = "Amazing",
                     reviewText = "it was so good"
                 )
             )
@@ -144,15 +144,15 @@ class reviewServiceTests() {
             user = user,
             product = product1,
             rating = 5,
-            reviewTitle = "Amazing",
+            reviewName = "Amazing",
             reviewText = "it was so good"
         )
         val mockOrderRepo: OrderRepo = mock()
         val mockUserRepo: UserRepo = mock()
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
-        whenever(mockUserRepo.findByIdUser(0)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user)).thenReturn(orders)
+        whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
+        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
         whenever(mockProductRepo.findById(0)).thenReturn(Optional.of(product1))
         whenever(mockUserRepo.findById(0)).thenReturn(Optional.of(user))
         whenever(mockReviewRepo.save(review)).thenReturn(review)

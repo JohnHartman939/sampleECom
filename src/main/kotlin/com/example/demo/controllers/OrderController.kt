@@ -1,5 +1,6 @@
 package com.example.demo.controllers
 
+import com.example.demo.datatranferobjects.OrderDto
 import com.example.demo.datatranferobjects.OrderDtoRequest
 import com.example.demo.datatranferobjects.OrderDtoResponse
 import com.example.demo.entities.Order
@@ -20,7 +21,7 @@ class OrderController(val orderService: OrderService, @Qualifier("mvcConversionS
     }
 
     @GetMapping(params = ["userId"])
-    fun getOrdersByUser(@RequestParam(value = "userId") userId: Int): List<OrderDtoResponse> {
-        return orderService.getOrderByUser(userId).map { conversionService.convert(it, OrderDtoResponse::class.java) ?: throw CustomConversionException("There was a problem") }
+    fun getOrdersByUser(@RequestParam(value = "userId") userId: Int): List<OrderDto> {
+        return orderService.getOrderByUser(userId)
     }
 }

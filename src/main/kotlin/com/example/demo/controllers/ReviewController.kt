@@ -1,6 +1,8 @@
 package com.example.demo.controllers
 
+import com.example.demo.datatranferobjects.IUserID
 import com.example.demo.datatranferobjects.ReviewDto
+import com.example.demo.datatranferobjects.ReviewUpc
 import com.example.demo.entities.Review
 import com.example.demo.errors.CustomConversionException
 import com.example.demo.services.ReviewService
@@ -14,16 +16,16 @@ class ReviewController(val reviewService: ReviewService, @Qualifier("mvcConversi
 
     @PutMapping(params = ["upc", "userId"])
     fun updateReview(@RequestParam("upc") upc: Int, @RequestParam("userId") userId: Int, @RequestBody reviewDto: ReviewDto): ReviewDto {
-        reviewDto.userId = userId
-        reviewDto.upc = upc
+        reviewDto.user = IUserID(userId)
+        reviewDto.product = ReviewUpc(upc)
         return conversionService.convert(reviewService.updateReview(upc, userId, conversionService.convert(reviewDto, Review::class.java) ?: throw CustomConversionException("There was a problem")), ReviewDto::class.java) ?: throw CustomConversionException("There was a problem")
 
     }
 
     @PostMapping(params = ["upc", "userId"])
     fun saveReview(@RequestParam("upc") upc: Int, @RequestParam("userId") userId: Int, @RequestBody reviewDto: ReviewDto): ReviewDto {
-        reviewDto.userId = userId
-        reviewDto.upc = upc
+        reviewDto.user = IUserID(userId)
+        reviewDto.product = ReviewUpc(upc)
         return conversionService.convert(reviewService.saveReview(
             upc = upc,
             userId = userId,

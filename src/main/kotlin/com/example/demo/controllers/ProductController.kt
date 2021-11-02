@@ -29,21 +29,21 @@ class ProductController( val productService: ProductService, @Qualifier("mvcConv
 
     @GetMapping(params = ["upc"])
     fun getProductByUpc(@RequestParam("upc") upc: Int): ProductDto {
-        return conversionService.convert(productService.getProductByUpc(upc), ProductDto::class.java) ?: throw CustomConversionException("There was a problem")
+        return productService.getProductByUpc(upc)
     }
 
     @GetMapping(params = ["low", "high"])
     fun getProductsBetweenPrice(@RequestParam("low", required = true) low: Double, @RequestParam( "high", required = true) high: Double): List<ProductDto> {
-        return productService.getProductsByPriceBetween(low,high).map { conversionService.convert(it, ProductDto::class.java) ?: throw CustomConversionException("There was a problem") }
+        return productService.getProductsByPriceBetween(low,high)
     }
 
     @GetMapping(params = ["keyword"])
     fun searchForProductsByNameOrDescription(@RequestParam("keyword", required = true) keyword: String): List<ProductDto> {
-        return productService.searchForProducts(keyword).map { conversionService.convert(it, ProductDto::class.java) ?: throw CustomConversionException("There was a problem") }
+        return productService.searchForProducts(keyword)
     }
 
     @GetMapping( params = ["upc", "name"])
     fun getProductByUpcAndName(@RequestParam("upc") upc: Int, @RequestParam("name")name: String): ProductDto{
-        return conversionService.convert(productService.findProductByUpcAndName(upc, name), ProductDto::class.java ) ?: throw CustomConversionException("There was a problem")
+        return productService.findProductByUpcAndName(upc, name)
     }
 }
