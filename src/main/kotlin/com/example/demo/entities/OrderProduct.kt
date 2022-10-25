@@ -22,10 +22,10 @@ data class OrderProduct (
     @JoinColumn(name = "upc")
     var product: Product,
 
-    var quantity: Int
-        ){
+    var quantity: Int,
+
     @ManyToOne
     @MapsId("orderId")
     @JoinColumn(name = "orderId")
-    lateinit var order: Order
-}
+    var order: Order
+)

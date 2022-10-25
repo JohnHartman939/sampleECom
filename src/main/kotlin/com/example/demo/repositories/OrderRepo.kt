@@ -12,14 +12,17 @@ import org.springframework.stereotype.Repository
 @Repository
 interface OrderRepo: CrudRepository<Order,Int> {
 
+    fun <T:IOrder>findByUser_IdUser(user: Int, type: Class<T>): List<T>
 
-    fun <T:IOrder>findAllByUser(user: User, type: Class<T>): List<T>
-
-    @Query( value = "select new com.example.demo.datatranferobjects.OrderDTO(o.orderId, o.firstName, o.lastName, o.address, o.city, o.state, o.zip, o.orderSum, p.upc, p.productName) from Order AS o \n" +
-            "Join OrderProduct as op on op.orderId = o.orderId \n" +
-            "join Product as p on op.upc = p.upc\n" +
-            "join User as u on o.id = u.idUser where u.idUser = :idUser")
-    fun custom(@Param("idUser") user: Int) : List<OrderDto>
+//    @Query( value = "select new com.example.demo.datatranferobjects.OrderDTO(o.orderId, o.firstName, o.lastName, o.address, o.city, o.state, o.zip, o.orderSum, p.upc, p.productName) from Order AS o \n" +
+//            "Join OrderProduct as op on op.orderId = o.orderId \n" +
+//            "join Product as p on op.upc = p.upc\n" +
+//            "join User as u on o.id = u.idUser where u.idUser = :idUser")
+//    fun custom(@Param("idUser") user: Int) : List<OrderDto>
 
     //fun customFindByUser(user: User): OrderDto
+
+
+   // fun <T:IOrder>findByUser_IdUser(idUser: Int, type: Class<T>): List<Order>
+
 }

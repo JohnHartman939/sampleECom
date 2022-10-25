@@ -1,8 +1,11 @@
 package com.example.demo.repositories
 
 import com.example.demo.datatranferobjects.AdminData
+import com.example.demo.datatranferobjects.OrderProductDto2
 import com.example.demo.datatranferobjects.ProductDto
+import com.example.demo.datatranferobjects.ProductDto2
 import com.example.demo.entities.Product
+import com.example.demo.entities.User
 import com.example.demo.entityinterfaces.IProduct
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
@@ -23,4 +26,7 @@ interface ProductRepo: CrudRepository<Product,Int> {
 
     @Query(value = "SELECT new com.example.demo.datatranferobjects.AdminData(avg(price) AS averageProductPrice, max(price))FROM Product")
     fun averageAndMaxPrice(): AdminData
+
+    fun findByOrderProduct_Order_User_IdUser(user: Int): List<ProductDto2>
+
 }

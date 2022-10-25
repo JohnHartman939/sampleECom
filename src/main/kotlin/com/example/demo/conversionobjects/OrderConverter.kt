@@ -24,7 +24,7 @@ class DtoToOrderConverter(val userRepo: UserRepo, val productRepo: ProductRepo) 
         var order = Order(orderDtoRequest,
             user = userRepo.findByIdUser(orderDtoRequest.userId, User::class.java),
             orderedProducts = orderDtoRequest.orderInfo.products.map { OrderProduct(
-                orderId = OrderProductKey(upc = it.upc), product = productRepo.findByUpcAndProductName(it.upc, it.productName, Product::class.java) , quantity = it.quantity ) })
+                orderId = OrderProductKey(upc = it.upc), product = productRepo.findByUpcAndProductName(it.upc, it.productName, Product::class.java) , quantity = it.quantity, order = Order()) })
         order.orderProduct.forEach { it.order = order }
         return order
 

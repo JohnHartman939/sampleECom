@@ -33,7 +33,7 @@ class reviewServiceTests() {
                 user = user,
                 orderProduct = mutableListOf(
                     OrderProduct(
-                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2
+                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2, Order()
                     )
                 ),
                 orderSum = 10.0
@@ -44,7 +44,7 @@ class reviewServiceTests() {
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
         whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
+        whenever(mockOrderRepo.findByUser_IdUser(user.idUser, Order::class.java)).thenReturn(orders)
 
         val reviewService = ReviewService(mockReviewRepo, mockUserRepo, mockProductRepo, mockOrderRepo)
 
@@ -79,7 +79,7 @@ class reviewServiceTests() {
                 user = user,
                 orderProduct = mutableListOf(
                     OrderProduct(
-                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2
+                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2, Order()
                     )
                 ),
                 orderSum = 10.0
@@ -98,7 +98,7 @@ class reviewServiceTests() {
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
         whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
+        whenever(mockOrderRepo.findByUser_IdUser(user.idUser, Order::class.java)).thenReturn(orders)
 
         val reviewService = ReviewService(mockReviewRepo, mockUserRepo, mockProductRepo, mockOrderRepo)
 
@@ -133,7 +133,7 @@ class reviewServiceTests() {
                 user = user,
                 orderProduct = mutableListOf(
                     OrderProduct(
-                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2
+                        OrderProductKey(orderId = 0, upc = 0), product = product1, quantity = 2, Order()
                     )
                 ),
                 orderSum = 10.0
@@ -152,7 +152,7 @@ class reviewServiceTests() {
         val mockProductRepo: ProductRepo = mock()
         val mockReviewRepo: ReviewRepo = mock()
         whenever(mockUserRepo.findByIdUser(0, User::class.java)).thenReturn(user)
-        whenever(mockOrderRepo.findAllByUser(user, Order::class.java)).thenReturn(orders)
+        whenever(mockOrderRepo.findByUser_IdUser(user.idUser, Order::class.java)).thenReturn(orders)
         whenever(mockProductRepo.findById(0)).thenReturn(Optional.of(product1))
         whenever(mockUserRepo.findById(0)).thenReturn(Optional.of(user))
         whenever(mockReviewRepo.save(review)).thenReturn(review)

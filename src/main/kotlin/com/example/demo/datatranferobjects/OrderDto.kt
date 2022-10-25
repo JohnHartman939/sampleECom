@@ -1,9 +1,7 @@
 package com.example.demo.datatranferobjects
 
-import com.example.demo.entities.Order
-import com.example.demo.entities.OrderProduct
+import com.example.demo.entities.*
 import com.example.demo.entityinterfaces.IOrder
-import org.springframework.data.rest.core.config.Projection
 
 
 data class OrderDtoRequest(
@@ -156,3 +154,32 @@ data class OrderedProduct(
     var upc: Int,
     var productName: String
 )
+
+
+data class OrderProductDto2(
+    //var product: ProductDto2,
+    //var order: Order,
+    var orderId: OrderProductKey,
+    var product: Product
+) {
+
+}
+
+//data class SampleOrder(
+//    var orderId: Int,
+//    var products: String = mutableListOf(),
+//    val productDescription: String
+//)
+
+data class idk(
+    var orderId: Int,
+    var anotherIdk: List<ProductDto2>
+)
+
+//data class ProductDto2(
+//    val upc: Int,
+//    var productName: String,
+//    var productDescription: String,
+//)
+
+

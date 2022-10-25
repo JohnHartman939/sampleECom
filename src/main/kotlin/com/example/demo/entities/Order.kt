@@ -3,7 +3,6 @@ package com.example.demo.entities
 import com.example.demo.datatranferobjects.OrderDtoRequest
 import com.example.demo.entityinterfaces.IOrder
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Date
 import java.sql.Timestamp
 import javax.persistence.*
 
@@ -36,6 +35,20 @@ data class Order(
     user = user,
     orderProduct = orderedProducts.toMutableList(),
     orderSum = orderedProducts.sumOf { it.product.price * it.quantity }
+    )
+
+    constructor(
+
+    ) : this(
+        firstName = "",
+        lastName = "",
+        address = "",
+        city = "",
+        state = "",
+        zip = "",
+        user = User(0,"","", mutableListOf(), mutableListOf()),
+        orderProduct = mutableListOf(),
+        orderSum = 0.0
     )
 
     @field:CreationTimestamp

@@ -1,8 +1,6 @@
 package com.example.demo.controllers
 
-import com.example.demo.datatranferobjects.OrderDto
-import com.example.demo.datatranferobjects.OrderDtoRequest
-import com.example.demo.datatranferobjects.OrderDtoResponse
+import com.example.demo.datatranferobjects.*
 import com.example.demo.entities.Order
 import com.example.demo.errors.CustomConversionException
 import com.example.demo.services.OrderService
@@ -23,5 +21,10 @@ class OrderController(val orderService: OrderService, @Qualifier("mvcConversionS
     @GetMapping(params = ["userId"])
     fun getOrdersByUser(@RequestParam(value = "userId") userId: Int): List<OrderDto> {
         return orderService.getOrderByUser(userId)
+    }
+
+    @GetMapping(params = ["userId2"])
+    fun getOrderProductDto(@RequestParam(value = "userId2") userId: Int): List<ProductDto2> {
+        return orderService.getOrderProductDto(userId)
     }
 }

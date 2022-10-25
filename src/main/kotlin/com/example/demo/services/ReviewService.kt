@@ -3,7 +3,6 @@ package com.example.demo.services
 import com.example.demo.datatranferobjects.ReviewDto
 import com.example.demo.entities.Order
 import com.example.demo.entities.Review
-import com.example.demo.entities.User
 import com.example.demo.errors.AlreadyReviewedException
 import com.example.demo.errors.NotOrderedException
 import com.example.demo.repositories.OrderRepo
@@ -26,7 +25,7 @@ class ReviewService( val reviewRepo: ReviewRepo, val userRepo: UserRepo, val pro
     }
 
     fun saveReview(upc: Int, userId: Int, review: Review): Review {
-        val orders = orderRepo.findAllByUser(userRepo.findByIdUser(userId, User::class.java), Order::class.java)
+        val orders = orderRepo.findByUser_IdUser(userId, Order::class.java)
         val orderProducts = orders.flatMap { it.orderProduct }
         val orderedProducts = orderProducts.map { it.product }.filter { it.upc == upc }
         val usersReviewed = orderedProducts.flatMap { product -> product.reviews.map { it.user } }.filter { it.idUser == userId }
